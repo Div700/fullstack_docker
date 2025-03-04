@@ -1,0 +1,31 @@
+services:
+  nginx:
+    build: ./mern/nginx
+    ports:
+    - "3000:80"
+    networks:
+      - demo
+    depends_on:
+      - frontend
+      - backend
+  frontend:
+    build: ./mern/frontend
+    # No need for port mapping to host
+    networks:
+      - demo
+  backend:
+    build: ./mern/backend
+    # No need for port mapping to host
+    networks:
+      - demo
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    # No need for port mapping to host
+    networks:
+      - demo
+networks:
+  demo:
+    driver: bridge
+

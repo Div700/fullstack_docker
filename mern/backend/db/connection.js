@@ -16,9 +16,8 @@ try {
   await client.db("admin").command({ ping: 1 });
   console.log("Pinged your deployment. You successfully connected to MongoDB!");
 } catch (err) {
-  console.error(err);
+  console.log(`Error: ${err}`);
 }
 
-let db = client.db("employees");
-
+let db = await client.db("employees");
 export default db;

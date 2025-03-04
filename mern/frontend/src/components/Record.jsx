@@ -14,19 +14,21 @@ export default function Record() {
   useEffect(() => {
     async function fetchData() {
       const id = params.id?.toString() || undefined;
+      console.log(params.id);
       if(!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:5050/record/${params.id.toString()}`
+        `/api/records/${params.id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
         console.error(message);
+        console.log(message);
         return;
       }
       const record = await response.json();
       if (!record) {
-        console.warn(`Record with id ${id} not found`);
+        console.warn(`Record with id ${params.id} not found`);
         navigate("/");
         return;
       }
@@ -51,7 +53,7 @@ export default function Record() {
       let response;
       if (isNew) {
         // if we are adding a new record we will POST to /record.
-        response = await fetch("http://localhost:5050/record", {
+        response = await fetch("/api/records/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,8 +61,9 @@ export default function Record() {
           body: JSON.stringify(person),
         });
       } else {
-        // if we are updating a record we will PATCH to /record/:id.
-        response = await fetch(`http://localhost:5050/record/${params.id}`, {
+        // if we are updating a record we will PATCH to /records/:id.
+        console.log(typeof(params.id));
+        response = await fetch(`/api/records/${params.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
