@@ -1,16 +1,18 @@
 services:
-  nginx:
-    build: ./mern/nginx
-    ports:
-    - "3000:80"
+  api-gateway:
+    build: ./mern/api-gateway
+    ports : 
+      - 3001:80
     networks:
       - demo
     depends_on:
-      - frontend
       - backend
   frontend:
     build: ./mern/frontend
-    # No need for port mapping to host
+    environment:
+      - VITE_API_URL=http://localhost:3001/api/records
+    ports:
+      - "3005:5173"
     networks:
       - demo
   backend:

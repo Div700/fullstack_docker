@@ -18,7 +18,7 @@ export default function Record() {
       if(!id) return;
       setIsNew(false);
       const response = await fetch(
-        `/api/records/${params.id}`
+        `${import.meta.env.VITE_API_URL}/${params.id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -53,7 +53,7 @@ export default function Record() {
       let response;
       if (isNew) {
         // if we are adding a new record we will POST to /record.
-        response = await fetch("/api/records/", {
+        response = await fetch(`${import.meta.env.VITE_API_URL}/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export default function Record() {
       } else {
         // if we are updating a record we will PATCH to /records/:id.
         console.log(typeof(params.id));
-        response = await fetch(`/api/records/${params.id}`, {
+        response = await fetch(`${import.meta.env.VITE_API_URL}/${params.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
